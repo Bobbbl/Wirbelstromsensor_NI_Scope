@@ -4,9 +4,138 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wirbelstromsensor_NI_Scope"
+        xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+        xmlns:converters="clr-namespace:Wirbelstromsensor_NI_Scope.Converter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="769">
+
+    <Window.Resources>
+        <converters:PointPositionToXCoordinate x:Key="PositionToXConverter"></converters:PointPositionToXCoordinate>
+    </Window.Resources>
+
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
+
+
+        <d3:ChartPlotter Name="plotter" Loaded="plotter_Loaded" Grid.Column="2">
+            <d3:Header>Stream von NIScope</d3:Header>
+
+            <d3:HorizontalAxisTitle>Frequenz</d3:HorizontalAxisTitle>
+            <d3:CursorCoordinateGraph Name="cursorGraph"></d3:CursorCoordinateGraph>
+            <d3:AxisCursorGraph></d3:AxisCursorGraph>
+
+
+
+            <d3:DraggablePoint Name="Point_1" Position="0.1 ,0.5"></d3:DraggablePoint>
+            <d3:VerticalLine Value="{Binding Path=Position , ElementName=Point_1, Converter={StaticResource PositionToXConverter}}"
+                             Stroke="Yellow" StrokeThickness="1"></d3:VerticalLine>
+
+            <d3:DraggablePoint Name="Point_2" Position="0.8, 0.5"></d3:DraggablePoint>
+            <d3:VerticalLine Stroke="Red" StrokeThickness="1" Value="{Binding Path=Position, ElementName=Point_2, Converter={StaticResource PositionToXConverter}}" StrokeDashCap="Round" StrokeDashArray="1 0" ></d3:VerticalLine>
+        </d3:ChartPlotter>
+
+
+
+
+
+        <!--Linke Seite-->
+        <StackPanel Grid.Column="0" MaxWidth="300">
+
+
+
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid x:Name="GridAllgemein" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0">Resource:</Label>
+                    <Label Grid.Column="0" Grid.Row="1">Kanal:</Label>
+
+                    <ComboBox Grid.Column="1" Grid.Row="0" Width="80" Name="ComboBoxResource" Opacity="0.5">
+                        <ComboBox.Background>
+                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                <GradientStop Color="#FFD69393" Offset="1"/>
+                            </LinearGradientBrush>
+                        </ComboBox.Background>
+
+                    </ComboBox>
+                    <TextBlock Name="TextBlockChannel" Grid.Column="1" Grid.Row="1" Width="80" Text="0" TextAlignment="Right"/>
+                </Grid>
+                <Button x:Name="Start" Content="Start" Width="70" Click="Start_Click">
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                            <GradientStop Color="#FFEBEBEB" Offset="0.112"/>
+                            <GradientStop Color="#FFDDDDDD" Offset="0.008"/>
+                            <GradientStop Color="#FFD1D1D1" Offset="1"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Stop" Content="Stop" IsEnabled="False" Click="Stop_Click">
+
+                </Button>
+            </StackPanel>
+
+
+
+
+            <Grid x:Name="GridAusgabe" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="128"></ColumnDefinition>
+                    <ColumnDefinition Width="120"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0">Amplitude:</Label>
+                <Label Grid.Column="0" Grid.Row="1">Frequenz:</Label>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Right" >0</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Right" TextTrimming="CharacterEllipsis">0</TextBlock>
+
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Column="0" Name="ComboBoxRecordLength" Background="{Binding Path=Background, ElementName=ComboBoxResource}" Opacity="0.5"></ComboBox>
+                <ComboBox Grid.Column="1" Name="ComboBoxProcessing" Background="{Binding Path=Background, ElementName=ComboBoxResource}" Opacity="0.5"></ComboBox>
+            </Grid>
+
+            <Image  Stretch="Uniform" Height="200" MinHeight="200"
+                   Width="200" MinWidth="200" Source="Resources/THD-Logo-quadrat.jpg" ></Image>
+
+
+
+
+
+
+
+
+
+
+
+
+        </StackPanel>
     </Grid>
 </Window>
