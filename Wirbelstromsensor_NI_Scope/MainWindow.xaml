@@ -7,7 +7,8 @@
         xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
         xmlns:converters="clr-namespace:Wirbelstromsensor_NI_Scope.Converter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="769">
+        Title="MainWindow" Height="350" Width="769" 
+        WindowStartupLocation="CenterScreen" WindowState="Maximized">
 
     <Window.Resources>
         <converters:PointPositionToXCoordinate x:Key="PositionToXConverter"></converters:PointPositionToXCoordinate>
