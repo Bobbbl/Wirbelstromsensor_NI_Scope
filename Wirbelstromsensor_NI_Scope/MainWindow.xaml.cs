@@ -172,18 +172,6 @@ namespace Wirbelstromsensor_NI_Scope
         {
             InitializeComponent();
 
-            //var mySeries = new DatenSerie();
-
-            //var myChartSeries1 = new EnumerableDataSource<PointXY>(mySeries);
-            //var myChartSeries2 = new EnumerableDataSource<PointXY>(mySeries);
-
-            //Func<PointXY, Point> dConvert = ConvertToPoint;
-
-            //myChartSeries1.SetXYMapping(dConvert);
-            //myChartSeries2.SetXYMapping(dConvert);
-
-            //plotter.AddLineGraph(myChartSeries1, Colors.Black, 2, "chartSeries1");
-
             initializeComboBoxRecordLength();
             initializeComboBoxResource();
             initializeComboBoxProcessing();
@@ -326,12 +314,6 @@ namespace Wirbelstromsensor_NI_Scope
             this.ComboBoxRecordLength.ItemsSource = list;
             ComboBoxRecordLength.SelectedIndex = 9;
         }
-
-        //private Point ConvertToPoint(PointXY arg)
-        //{
-        //    return new Point(arg._curveDate, arg._curveValue);
-        //}
-
 
 
         private void Start_Click(object sender, RoutedEventArgs e)

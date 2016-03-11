@@ -8,7 +8,7 @@
         xmlns:converters="clr-namespace:Wirbelstromsensor_NI_Scope.Converter"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="561" Width="769" 
+        Title="Sánchez Wirbelstromsensor" Height="561" Width="769" 
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
 
     <Window.Resources>
