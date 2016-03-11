@@ -123,6 +123,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FinderToolbox.cs" />
+    <Compile Include="IPushNotificableList.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
