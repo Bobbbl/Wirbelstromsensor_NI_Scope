@@ -139,6 +139,34 @@ namespace Wirbelstromsensor_NI_Scope
         }
 
         public AnalogWaveformCollection<double> waveformfromscope { get; private set; }
+        public ScopeMeasurementFilterType FilterType {
+            get
+            {
+                return (ScopeMeasurementFilterType)this.ComboBoxFilter.SelectedItem;
+            }
+            
+        }
+
+        public double CenterFrequency {
+            get
+            {
+                return Convert.ToDouble(TextblockCenter.Text);
+            }
+        }
+        public double CutoffFrequency
+        {
+            get
+            {
+                return Convert.ToDouble(TextblockCutoff.Text);
+            }
+        }
+
+        public double BandPassWidth {
+            get
+            {
+                return Convert.ToDouble(TextblockWidth.Text);
+            }
+        }
 
         public MainWindow()
         {
@@ -162,8 +190,17 @@ namespace Wirbelstromsensor_NI_Scope
             intializeTimer(100);
             initializeEvents();
             initializePlot();
+            initializeComboBoxFilter();
 
+        }
 
+        private void initializeComboBoxFilter()
+        {
+            foreach (ScopeMeasurementFilterType enumValue in Enum.GetValues(typeof(ScopeMeasurementFilterType)))
+            {
+                ComboBoxFilter.Items.Add(enumValue);
+            }
+            ComboBoxFilter.SelectedItem = ComboBoxFilter.Items[0];
         }
 
         private void initializePlot()
@@ -320,6 +357,12 @@ namespace Wirbelstromsensor_NI_Scope
 
                 while (!_stop)
                 {
+                    //Filter
+                    _scopeSession.Channels[ChannelName].Measurement.Filter.Type = FilterType;
+                    _scopeSession.Channels[ChannelName].Measurement.Filter.CutoffFrequency = CutoffFrequency;
+                    _scopeSession.Channels[ChannelName].Measurement.Filter.CenterFrequency = CenterFrequency;
+                    _scopeSession.Channels[ChannelName].Measurement.Filter.Width = BandPassWidth;
+
                     _scopeSession.Timing.ConfigureTiming(_sampleratemin, recordlengthmin,
                         referenceposition, numberofrecords, enforcerealtime);
                     _scopeSession.Channels[ChannelName].Measurement.AddWaveformProcessing(

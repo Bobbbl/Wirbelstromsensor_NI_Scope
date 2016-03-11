@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:Wirbelstromsensor_NI_Scope"
         xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
         xmlns:converters="clr-namespace:Wirbelstromsensor_NI_Scope.Converter"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="769" 
+        Title="MainWindow" Height="561" Width="769" 
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
 
     <Window.Resources>
@@ -127,7 +128,33 @@
                    Width="200" MinWidth="200" Source="Resources/THD-Logo-quadrat.jpg" ></Image>
 
 
+            <GroupBox Header="Filter">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="77*"></ColumnDefinition>
+                        <ColumnDefinition Width="67*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
+                    <!--Labels-->
+                    <Label Grid.Column="0" Grid.Row="0" FontSize="8">Filter Type:</Label>
+                    <Label Grid.Column="0" Grid.Row="1" FontSize="8">Low/High Cutoff Freq (hz):</Label>
+                    <Label Grid.Column="0" Grid.Row="2" FontSize="8">BandPass/Stop Center Freq (hz):</Label>
+                    <Label Grid.Column="0" Grid.Row="3" FontSize="8">BandPass/BandStop Width:</Label>
+
+                    <!--Controls Right Side-->
+                    <ComboBox Grid.Column="1" Grid.Row="0" Name="ComboBoxFilter"></ComboBox>
+                    <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Right" Name="TextblockCutoff">500000</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Right" Name="TextblockCenter">100000</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="3" TextAlignment="Right" Name="TextblockWidth">1000</TextBlock>
+
+                </Grid>
+            </GroupBox>
 
 
 
