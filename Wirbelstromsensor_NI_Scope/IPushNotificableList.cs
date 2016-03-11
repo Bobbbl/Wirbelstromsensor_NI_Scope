@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace Wirbelstromsensor_NI_Scope
 {
-    interface IPushNotificableList
+    interface IPushNotificableList<T> 
     {
         /// <summary>
         /// Fügt den aktuellen wert vorne an die Liste an und schiebt
         /// den Rest nach hinten.
         /// </summary>
-        void Push();
+        void Push(T arg);
+        
+
+
     }
 }
