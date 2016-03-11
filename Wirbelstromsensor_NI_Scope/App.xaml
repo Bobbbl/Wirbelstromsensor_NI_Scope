@@ -1,0 +1,9 @@
+﻿<Application x:Class="Wirbelstromsensor_NI_Scope.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Wirbelstromsensor_NI_Scope"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
