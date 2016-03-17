@@ -33,11 +33,11 @@
 
 
 
-            <d3:DraggablePoint Name="Point_1" Position="0.1 ,0.5"></d3:DraggablePoint>
+            <d3:DraggablePoint Name="Point_1" Position="0 ,0"></d3:DraggablePoint>
             <d3:VerticalLine Value="{Binding Path=Position , ElementName=Point_1, Converter={StaticResource PositionToXConverter}}"
                              Stroke="Yellow" StrokeThickness="1"></d3:VerticalLine>
 
-            <d3:DraggablePoint Name="Point_2" Position="0.8, 0.5"></d3:DraggablePoint>
+            <d3:DraggablePoint Name="Point_2" Position="90000, 0"></d3:DraggablePoint>
             <d3:VerticalLine Stroke="Red" StrokeThickness="1" Value="{Binding Path=Position, ElementName=Point_2, Converter={StaticResource PositionToXConverter}}" StrokeDashCap="Round" StrokeDashArray="1 0" ></d3:VerticalLine>
         </d3:ChartPlotter>
 
@@ -109,7 +109,7 @@
                 <Label Grid.Column="0" Grid.Row="0">Amplitude:</Label>
                 <Label Grid.Column="0" Grid.Row="1">Frequenz:</Label>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Right" >0</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Right" Name="TextBlockAmplitude">0</TextBlock>
                 <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Right" TextTrimming="CharacterEllipsis">0</TextBlock>
 
             </Grid>

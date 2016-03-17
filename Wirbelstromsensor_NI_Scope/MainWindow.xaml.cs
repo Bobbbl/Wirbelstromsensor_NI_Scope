@@ -20,6 +20,8 @@ using NationalInstruments.ModularInstruments;
 using NationalInstruments.ModularInstruments.NIScope;
 using NationalInstruments.ModularInstruments.SystemServices.DeviceServices;
 using NationalInstruments;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Wirbelstromsensor_NI_Scope
 {
@@ -195,8 +197,10 @@ namespace Wirbelstromsensor_NI_Scope
         {
             XY = new ObservableDataSource<Point>();
             XY.SetXYMapping(p => p);
-            plotter.AddLineGraph(XY);
+            plotter.AddLineGraph(XY, Colors.Black);
             plotter.FitToView();
+            Point_1_Position = Point_1.Position;
+            Point_2_Position = Point_2.Position;
         }
 
         private void intializeTimer(int v)
@@ -204,12 +208,19 @@ namespace Wirbelstromsensor_NI_Scope
             timer = new System.Windows.Threading.DispatcherTimer();
             timer.Tick += Timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 0, 0, v);
+            
 
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             UpdatePoints();
+        }
+
+        protected void DoEvents()
+        {
+            if (Application.Current != null)
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
         }
 
         private void UpdatePoints()
@@ -221,9 +232,22 @@ namespace Wirbelstromsensor_NI_Scope
 
             List<double> measurementlist = FinderToolbox.ConvertNICollectionToPointCollection(_spectrumwaveform);
 
-            XY = CalculateXY(measurementlist, _sampleratemin, recordlengthmin);
+            List<Point> tmp = CalculateXY_List(measurementlist, _sampleratemin, recordlengthmin);
 
+            XY.Collection.Clear();
 
+            XY.AppendMany(tmp);
+
+            //Get Minimum
+            double min = _minimum;
+            double max = _maximum;
+            
+            int index_min = FinderToolbox.FindIndexOfValue(FinderToolbox.PointToList(tmp, "X"), min);
+            int index_max = FinderToolbox.FindIndexOfValue(FinderToolbox.PointToList(tmp, "X"), max);
+
+            double peak = FinderToolbox.FindHighestValueInCollection(tmp, index_min, index_max);
+
+            this.TextBlockAmplitude.Text = Convert.ToString(peak);
 
             if (XY == null)
             {
@@ -246,6 +270,25 @@ namespace Wirbelstromsensor_NI_Scope
                 y = (measurementlist[i] * 2 * 1000000) / measurementlist.Count;
 
                 r.Collection.Add(new Point(x, y));
+            }
+
+            return r;
+        }
+
+        private List<Point> CalculateXY_List(List<double> measurementlist, double sampleratemin, int recordlengthmin)
+        {
+            List<Point> r = new List<Point>();
+
+            double x, y;
+
+            for (int i = 1; i < measurementlist.Count; i++)
+            {
+                x = Convert.ToDouble(i) / (recordlengthmin / sampleratemin);
+                //y = (measurementlist[i] * 2 * 1000000) / measurementlist.Count;
+                y = (measurementlist[i]) * 10 / sampleratemin;
+                y = y * 1000000;
+
+                r.Add(new Point(x, y));
             }
 
             return r;
@@ -329,12 +372,14 @@ namespace Wirbelstromsensor_NI_Scope
             int numberofrecords = 1;
             bool enforcerealtime = true;
 
+            timer.Start();
+
             try
             {
                 InitializeSession();
                 _scopeSession.Measurement.AutoSetup();
 
-
+                
 
 
                 while (!_stop)
@@ -359,10 +404,12 @@ namespace Wirbelstromsensor_NI_Scope
 
                     if (started == false)
                     {
-                        timer.Start();
+                        timer.IsEnabled = true;
+                        //timer.Start();
                         started = true;
                     }
 
+                    this.DoEvents();
                 }
 
             }
@@ -442,6 +489,10 @@ namespace Wirbelstromsensor_NI_Scope
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
             this._stop = true;
+            timer.Stop();
+            started = false;
+            this.Stop.IsEnabled = false;
+
         }
     }
 }

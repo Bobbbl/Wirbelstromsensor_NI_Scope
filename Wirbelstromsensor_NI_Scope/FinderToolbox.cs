@@ -49,7 +49,7 @@ namespace Wirbelstromsensor_NI_Scope
             
         }
 
-        public static int FindHighestValueInCollection(Collection<Point> list, double minimum = Double.MinValue, double maximum = Double.MaxValue)
+        public static int FindHighestValueInCollection(ICollection<Point> list, double minimum = Double.MinValue, double maximum = Double.MaxValue)
         {
             if (list == null)
             {
@@ -59,8 +59,8 @@ namespace Wirbelstromsensor_NI_Scope
             List<double> listX = PointToList(list, "X");
             List<double> listY = PointToList(list, "Y");
 
-            int low = FindIndexOfValue(listX, minimum);
-            int high = FindIndexOfValue(listX, maximum);
+            int low = FindIndexOfValue(listY, minimum);
+            int high = FindIndexOfValue(listY, maximum);
 
             double oldvalue = Double.MinValue;
             int foundindex = -1;
@@ -86,7 +86,7 @@ namespace Wirbelstromsensor_NI_Scope
             return foundindex;
         }
 
-        private static List<double> PointToList(Collection<Point> list, string v)
+        public static List<double> PointToList(ICollection<Point> list, string v)
         {
             List<double> r = new List<double>();
 
