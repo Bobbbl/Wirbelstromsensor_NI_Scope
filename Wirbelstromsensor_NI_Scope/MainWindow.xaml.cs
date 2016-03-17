@@ -402,12 +402,12 @@ namespace Wirbelstromsensor_NI_Scope
 
                     _scopeSession.Channels[ChannelName].Measurement.ClearWaveformProcessing();
 
-                    if (started == false)
-                    {
-                        timer.IsEnabled = true;
+                    //if (started == false)
+                    //{
+                        //timer.IsEnabled = true;
                         //timer.Start();
-                        started = true;
-                    }
+                    //    started = true;
+                    //}
 
                     this.DoEvents();
                 }
